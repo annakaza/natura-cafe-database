@@ -1,0 +1,77 @@
+{{!-- invoices.hbs: Template for displaying and adding invoices --}}
+<!-- This file uses Handlebars to dynamically render invoice data from the server -->
+
+<h2>Invoices</h2>
+
+{{!-- Section: Display all invoices in the Invoices table --}}
+<div class="table-container">
+<table id="invoices-table" class="display-table">
+    <thead>
+        <tr>
+            <th>Invoice ID</th>
+            <th>Date of Sale</th>
+            <th>Net Total ($)</th>
+            <th>Sales Tax ($)</th>
+            <th>Sale Total ($)</th>
+            <th>Employee</th>
+            <th>Customer</th>
+            <th></th> {{!-- Empty header for delete button column --}}
+        </tr>
+    </thead>
+    <tbody>
+        {{!-- Iterate over each invoice in the data array passed from the server --}}
+        {{#each data}}
+        <tr data-value={{this.invoiceID}}>
+            <td style="text-align: right;">{{this.invoiceID}}</td>
+            <td>{{this.saleDate}}</td>
+            <td style="text-align: right;">{{this.netTotal}}</td>
+            <td style="text-align: right;">{{this.salesTax}}</td>
+            <td style="text-align: right;">{{this.saleTotal}}</td>
+            <td>{{this.employeeID}}</td> {{!-- Employee name mapped from employeeID in app.js --}}
+            <td>{{this.customerID}}</td> {{!-- Customer name mapped from customerID in app.js --}}
+            
+            {{!-- Delete button: triggers deletion of this invoice via JavaScript --}}
+            <td><button onclick="deleteInvoice({{this.invoiceID}})" class="delete-button">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+</div>
+<script src="./js/delete_invoice.js"></script> {{!-- External script for handling invoice deletion --}}
+
+{{!-- Section: Add a new invoice to the Invoices table --}}
+<form id="add-invoices-form-ajax">
+    <fieldset class="form-fillable">
+        <legend><strong>Add an Invoice</strong></legend>
+        <p>To add a new invoice, please enter its sale details below, including (optional) employee and customer selections, then click Add.</p>
+        <p>
+            <label for="input-saledate">Sale Date: </label>
+            <input type="datetime-local" name="input-saledate" id="input-saledate" step="1" required>
+
+            <label for="input-net-total">Net Total: </label>
+            <input type="number" name="input-net-total" id="input-net-total" step="0.01" min="0" required>  
+        </p>
+        <p>
+            {{!-- Dropdown to select the employee (optional) --}}
+            <label for="input-employee-id">Employee (optional): </label>
+            <select name="input-employee-id" id="input-employee-id">
+                <option value="">No Employee</option>
+                {{#each employees}}
+                <option value="{{this.employeeID}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+
+            {{!-- Dropdown to select the customer (optional) --}}
+            <label for="input-customer-id">Customer (optional): </label>
+            <select name="input-customer-id" id="input-customer-id">
+                <option value="">No Customer</option>
+                {{#each customers}}
+                <option value="{{this.customerID}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+            
+            <input type="submit" value="Add" class="form-button">
+        </p>
+    </fieldset>
+</form>
+<script src="./js/add_invoice.js"></script> {{!-- External script for handling invoice addition --}}

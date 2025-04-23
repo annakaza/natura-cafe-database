@@ -1,0 +1,46 @@
+{{!-- roles.hbs: Template for displaying and adding menu items --}}
+<!-- This file uses Handlebars to dynamically render role data from the server -->
+
+<h2>Roles</h2>
+
+{{!-- Section: Display all roles in the Roles table --}}
+<div class="table-container">
+<table id="roles-table" class="display-table">
+
+    <thead>
+        <tr>
+            <th>Role ID</th>
+            <th>Name</th>
+            <th></th> {{!-- Empty header for delete button column --}}
+        </tr>
+    </thead>
+    <tbody>
+        {{!-- Iterate over each role in the data array passed from the server --}}
+        {{#each data}}
+        <tr data-value={{this.roleID}}>
+            <td style="text-align: right;">{{this.roleID}}</td>
+            <td>{{this.name}}</td>
+
+            {{!-- Delete button: triggers deletion of this role via JavaScript --}}
+            <td><button onclick="deleteRole({{this.roleID}})" class="delete-button">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+</div>
+<script src="./js/delete_role.js"></script> {{!-- External script for handling role deletion --}}
+
+{{!-- Section: Add a new role to the Roles table --}}
+<form id="add-role-form-ajax">
+    <fieldset class="form-fillable">
+        <legend><strong>Add a Role</strong></legend>
+        <p>To add a new role, please enter the role's name, then click Add.</p>
+        <p>
+            <label for="input-name">Role Name: </label>
+            <input type="text" name="input-name" id="input-name" required>
+
+            <input type="submit" value="Add" class="form-button">
+        </p>
+    </fieldset>
+</form>
+<script src="./js/add_role.js"></script> {{!-- External script for handling role addition --}}

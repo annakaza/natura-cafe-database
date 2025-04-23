@@ -1,0 +1,67 @@
+{{!-- customers.hbs: Template for displaying, adding, and searching customers --}}
+<!-- This file uses Handlebars to dynamically render customer data from the server -->
+
+<h2>Customers</h2>
+
+{{!-- Section: Display all customers in the Customers table --}}
+<div class="table-container">
+<table id="customers-table" class="display-table">
+    <thead>
+        <tr>
+            <th>Customer ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th></th> {{!-- Empty header for delete button column --}}
+        </tr>
+    </thead>
+    <tbody>
+        {{!-- Iterate over each customer in the data array passed from the server --}}
+        {{#each data}}
+        <tr data-value={{this.customerID}}>
+            <td style="text-align: right;">{{this.customerID}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.email}}</td>
+
+            {{!-- Delete button: triggers deletion of this customer via JavaScript --}}
+            <td style="text-align: center;"><button onclick="deleteCustomer({{this.customerID}})" class="delete-button">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+</div>
+<script src="./js/delete_customer.js"></script> {{!-- External script for handling customer deletion --}}
+
+{{!-- Section: Search for a customer in the Customers table --}}
+<form id="search-customer-html" method='GET' action='/customers'>
+    <fieldset class="form-fillable">
+        <legend><strong>Search for a Customer</strong></legend>
+        <p>To search for a customer, enter their first (then last) name below and click Search. Partial names are allowed. Click Reset to clear the search.</p>
+        <p>
+            <label for="input-name">Search by Name: </label>
+            <input type="text" name="name" id="input-name-html-search">
+
+            <input type="submit" value="Search" class="form-button">
+            
+            <a href='/customers'><button class="form-button">Reset</button></a>
+        </p>
+    </fieldset>
+</form>
+
+{{!-- Section: Add a new customer to the Customers table --}}
+<form id="add-customer-form-ajax">
+    <fieldset class="form-fillable">
+        <legend><strong>Add a Customer</strong></legend>
+        <p>To add a new customer, please enter their name (required) and email (optional) below, then click Add.</p>
+        <p>
+            <label for="input-name">Name: </label>
+            <input type="text" name="input-name" id="input-name" required>
+
+            <label for="input-email">Email (optional): </label>
+            <input type="email" name="input-email" id="input-email">
+            
+            <input type="submit" value="Add" class="form-button">
+        </p>
+    </fieldset>
+</form>
+<script src="./js/add_customer.js"></script> {{!-- External script for handling customer addition --}}
+

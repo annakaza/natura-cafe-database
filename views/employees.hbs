@@ -1,0 +1,132 @@
+{{!-- employees.hbs: Template for displaying, adding, searching, and updating employees --}}
+<!-- This file uses Handlebars to dynamically render employee data from the server -->
+
+<h2>Employees</h2>
+
+{{!-- Section: Display all employees in the Employees table --}}
+<div class="table-container">
+<table id="employees-table" class="display-table">
+    <thead>
+        <tr>
+            <th>Employee ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Date of Birth</th>
+            <th>Hire Date</th>
+            <th>Pay Rate ($)</th>
+            <th>Role</th>
+            <th></th> {{!-- Empty header for delete button column --}}
+        </tr>
+    </thead>
+    <tbody>
+        {{!-- Iterate over each employee in the data array passed from the server --}}
+        {{#each data}}
+        <tr data-value={{this.employeeID}}>
+            <td style="text-align: right;">{{this.employeeID}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.address}}</td>
+            <td>{{this.phone}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.dateOfBirth}}</td>
+            <td>{{this.hireDate}}</td>
+            <td style="text-align: right;">{{this.payRate}}</td>
+            <td>{{this.roleID}}</td> {{!-- Role name is displayed here, mapped from roleID in app.js --}}
+
+            {{!-- Delete button: triggers deletion of this employee via JavaScript --}}
+            <td><button onclick="deleteEmployee({{this.employeeID}})" class="delete-button">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+</div>
+<script src="./js/delete_employee.js"></script> {{!-- External script for handling employee deletion --}}
+
+{{!-- Section: Search for an employee in the Employees table --}}
+<form id="search-employee-html" method='GET' action='/employees'>
+    <fieldset class="form-fillable">
+        <legend><strong>Search for an Employee</strong></legend>
+        <p>To search for an employee, enter their first (then last) name below and click Search. Partial names are allowed. Click Reset to clear the search.</p>
+        <p>
+            <label for="input-name">Search by Name: </label>
+            <input type="text" name="name" id="input-name-html-search">
+
+            <input type="submit" value="Search" class="form-button">
+
+            <a href='/employees'><button class="form-button">Reset</button></a>
+        </p>
+    </fieldset>
+</form>
+
+{{!-- Section: Add a new employee to the Employees table --}}
+<form id="add-employee-form-ajax">
+    <fieldset class="form-fillable">
+        <legend><strong>Add an Employee</strong></legend>
+        <p>To add a new employee, please enter their information below, select a role (optional), then click Add.</p>
+        <p>
+            <label for="input-name">Name: </label>
+            <input type="text" name="input-name" id="input-name" required>
+
+            <label for="input-address">Address: </label>
+            <input type="text" name="input-address" id="input-address" required>
+
+            <label for="input-phone">Phone: </label>
+            <input type="text" name="input-phone" id="input-phone" required>
+        </p>
+        <p>
+
+            <label for="input-email">Email: </label>
+            <input type="email" name="input-email" id="input-email" required>
+
+            <label for="input-birth-date">Date of Birth: </label>
+            <input type="date" name="input-birth-date" id="input-birth-date" required>
+
+            <label for="input-start-date">Hire Date: </label>
+            <input type="date" name="input-start-date" id="input-start-date" required>
+        <p>
+            <label for="input-pay-rate">Pay Rate: </label>
+            <input type="number" name="input-pay-rate" id="input-pay-rate" step="0.01" min="1" required>
+
+            <label for="input-role-id">Role (optional): </label>
+            <select name="input-role-id" id="input-role-id">
+                <option value="">No Role</option>
+                {{#each roles}}
+                <option value="{{this.roleID}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+            
+            <input type="submit" value="Add" class="form-button">
+        </p>
+    </fieldset>
+</form>
+<script src="./js/add_employee.js"></script> {{!-- External script for handling employee addition --}}
+
+{{!-- Section: Update an employee’s role in the Employees table --}}
+<form id="update-employee-form-ajax">
+    <fieldset class="form-fillable">
+        <legend><strong>Update an Employee's Role</strong></legend>
+        <p>To update an employee's role, select their name from the dropdown on the left and their new role from the right, then click Update.</p>
+        <p>
+            {{!-- Dropdown to select the employee by name --}}
+            <label for="selected-name">Name: </label>
+            <select name="input-name" id="selected-name">
+                <option value="">Select an Employee</option>
+                {{#each data}}
+                <option value="{{this.employeeID}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+
+            {{!-- Dropdown to select the new role, optional with "No Role" for NULL --}}
+            <label for="input-role-id-update">Role (optional): </label>
+            <select name="input-role-id" id="input-role-id-update">
+                <option value="">No Role</option>
+                {{#each roles}}
+                <option value="{{this.roleID}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+            <input type="submit" value="Update" class="form-button">
+        </p>
+    </fieldset>
+</form>
+<script src="./js/update_employee.js"></script> {{!-- External script for handling role updates --}}

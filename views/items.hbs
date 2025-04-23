@@ -1,0 +1,66 @@
+{{!-- items.hbs: Template for displaying, adding, and searching menu items --}}
+<!-- This file uses Handlebars to dynamically render item data from the server -->
+
+<h2>Menu Items</h2>
+
+{{!-- Section: Display all items in the Items table --}}
+<div class="table-container">
+<table id="items-table" class="display-table">
+    <thead>
+        <tr>
+            <th>Item ID</th>
+            <th>Name</th>
+            <th>Price ($)</th>
+            <th></th> {{!-- Empty header for delete button column --}}
+        </tr>
+    </thead>
+    <tbody>
+        {{!-- Iterate over each item in the data array passed from the server --}}
+        {{#each data}}
+        <tr data-value={{this.itemID}}>
+            <td style="text-align: right;">{{this.itemID}}</td>
+            <td>{{this.name}}</td>
+            <td style="text-align: right;">{{this.price}}</td>
+
+            {{!-- Delete button: triggers deletion of this item via JavaScript --}}
+            <td><button onclick="deleteItem({{this.itemID}})" class="delete-button">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+</div>
+<script src="./js/delete_item.js"></script> {{!-- External script for handling item deletion --}}
+
+{{!-- Section: Search for an item in the Items table --}}
+<form id="search-item-html" method='GET' action='/items'>
+    <fieldset class="form-fillable">
+        <legend><strong>Search for a Menu Item</strong></legend>
+        <p>To search for an item, enter its name below and click Search. Partial names are allowed. Click Reset to clear the search.</p>
+        <p>
+            <label for="input-name">Search by Name: </label>
+            <input type="text" name="name" id="input-name-html-search">
+
+            <input type="submit" value="Search" class="form-button">
+            
+            <a href='/items'><button class="form-button">Reset</button></a>
+        </p>
+    </fieldset>
+</form>
+
+{{!-- Section: Add a new item to the Items table --}}
+<form id="add-item-form-ajax">
+    <fieldset class="form-fillable">
+        <legend><strong>Add a Menu Item</strong></legend>
+        <p>To add a new item, please enter its name and price below, then click Add.</p>
+        <p>
+            <label for="input-name">Name: </label>
+            <input type="text" name="input-name" id="input-name" required>
+
+            <label for="input-price">Price: </label>
+            <input type="number" name="input-price" id="input-price" step="0.01" min="0" required>
+
+            <input type="submit" value="Add" class="form-button">
+        </p>
+    </fieldset>
+</form>
+<script src="./js/add_item.js"></script> {{!-- External script for handling item addition --}}

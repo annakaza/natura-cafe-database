@@ -1,0 +1,48 @@
+{{!-- index.hbs: Homepage template for Natura Cafe DBMS --}}
+<!-- Welcomes users and provides an overview of the application's purpose and features -->
+
+<section class="welcome">
+    <h2>Welcome to Natura Cafe DBMS</h2>
+    <p class="welcome-text">A full-stack application designed to streamline operations for Natura Cafe, a growing coffee shop near a university campus.</p>
+</section>
+
+<div>
+    {{!-- Section: Project overview and key features --}}
+    <section>
+        <h3>About This Project</h3>
+        <p class="home-text">Developed using Node.js, Express, MySQL, and Handlebars, this database management system helps Natura Cafe keep pace with its expanding needs.</p>
+        <p class="home-text">It equips staff with tools to track customers, employees, menu items, and invoices seamlessly, featuring dynamic role assignment, real-time invoice updates, and AJAX-driven CRUD operations for a smooth workflow.</p>
+        <p class="home-text">Explore the system using the navigation bar above to manage cafe operations effortlessly!</p>
+    </section>
+
+    {{!-- Section: Summary of entities and functionalities --}}
+    <section>
+        <h3>Core Functionalities</h3>
+        <div class="entity-list">
+            <div class="entity">
+                <h4>Customers</h4>
+                <p>View, add, search, and delete customer records to nurture a growing clientele.</p>
+            </div>
+            <div class="entity">
+                <h4>Employees</h4>
+                <p>View, add, search, and delete staff details, plus update roles with dynamic dropdowns.</p>
+            </div>
+            <div class="entity">
+                <h4>Roles</h4>
+                <p>View, add, and delete employee roles to shape a flexible workforce.</p>
+            </div>
+            <div class="entity">
+                <h4>Menu Items</h4>
+                <p>View, add, search, and delete menu items to keep offerings fresh and profitable.</p>
+            </div>
+            <div class="entity">
+                <h4>Invoices</h4>
+                <p>View, record, and remove sales with optional employee and customer links to track revenue growth.</p>
+            </div>
+            <div class="entity">
+                <h4>Invoice Items</h4>
+                <p>View, add, update, and delete invoice items to ensure precise billing and inventory.</p>
+            </div>
+        </div>
+    </section>
+</div>

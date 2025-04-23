@@ -1,0 +1,93 @@
+{{!-- invoice_items.hbs: Template for displaying, adding, and updating invoice items --}}
+<!-- This file uses Handlebars to dynamically render invoice item data from the server -->
+
+<h2>Invoice Items</h2>
+
+{{!-- Section: Display all invoice items in the InvoiceItems table --}}
+<div class="table-container">
+<table id="invoice-items-table" class="display-table">
+    <thead>
+        <tr>
+            <th>Invoice Item ID</th>
+            <th>Item</th>
+            <th>Invoice</th>
+            <th>Order Quantity</th>
+            <th></th> {{!-- Empty header for delete button column --}}
+        </tr>
+    </thead>
+    <tbody>
+        {{!-- Iterate over each invoice item in the data array passed from the server --}}
+        {{#each data}}
+        <tr data-value={{this.invoiceItemID}}>
+            <td style="text-align: right;">{{this.invoiceItemID}}</td>
+            <td>{{this.itemID}}</td> {{!-- Item name mapped from itemID in app.js --}}
+            <td>{{this.invoiceID}}</td> {{!-- Sale date mapped from invoiceID in app.js --}}
+            <td style="text-align: right;">{{this.orderQuantity}}</td>
+
+            {{!-- Delete button: triggers deletion of this invoice item via JavaScript --}}
+            <td><button onclick="deleteInvoiceItem({{this.invoiceItemID}})" class="delete-button">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+</div>
+<script src="./js/delete_invoice_item.js"></script> {{!-- External script for handling invoice item deletion --}}
+
+{{!-- Section: Add a new invoice item to the InvoiceItems table --}}
+<form id="add-invoice-item-form-ajax">
+    <fieldset class="form-fillable">
+        <legend><strong>Add an Invoice Item</strong></legend>
+        <p>To add a new invoice item, please select an item and invoice, enter the order quantity, then click Add.</p>
+        <p>
+            {{!-- Dropdown to select the item --}}
+            <label for="input-item-id">Item: </label>
+            <select name="input-item-id" id="input-item-id" required>
+                <option value="">Select an Item</option>
+                {{#each items}}
+                <option value="{{this.itemID}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+
+            {{!-- Dropdown to select the invoice --}}
+            <label for="input-invoice-id">Invoice: </label>
+            <select name="input-invoice-id" id="input-invoice-id" required>
+                <option value="">Select an Invoice</option>
+                {{#each invoices}}
+                <option value="{{this.invoiceID}}">{{this.saleDate}}</option>
+                {{/each}}
+            </select>
+
+            {{!-- Input for order quantity --}}
+            <label for="input-order-quantity">Order Quantity: </label>
+            <input type="number" name="input-order-quantity" id="input-order-quantity" step="1" min="1" required>
+
+            <input type="submit" value="Add" class="form-button">
+        </p>
+    </fieldset>
+</form>
+<script src="./js/add_invoice_item.js"></script> {{!-- External script for handling invoice item addition --}}
+
+{{!-- Section: Update an invoice item’s order quantity in the InvoiceItems table --}}
+<form id="update-invoice-item-form-ajax">
+    <fieldset class="form-fillable">
+        <legend><strong>Update an Invoice Items's Quantity</strong></legend>
+        <p>To update an invoice item's order quantity, select the item / invoice from the dropdown and enter its new order quantity, then click Update.</p>
+        <p>
+            {{!-- Dropdown to select the invoice item --}}
+            <label for="selected-invoice-item">Invoice Item: </label>
+            <select name="input-invoice-item" id="selected-invoice-item">
+                <option value="">Select an Invoice Item</option>
+                {{#each data}}
+                <option value="{{this.invoiceItemID}}">{{this.itemID}} / {{this.invoiceID}}</option>
+                {{/each}}
+            </select>
+
+            {{!-- Input for updating order quantity --}}
+            <label for="input-order-quantity-update">Order Quantity: </label>
+            <input type="number" name="input-order-quantity" id="input-order-quantity-update" step="1" min="1" required>
+
+            <input type="submit" value="Update" class="form-button">
+        </p>
+    </fieldset>
+</form>
+<script src="./js/update_invoice_item.js"></script> {{!-- External script for handling order quantity updates --}}

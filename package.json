@@ -1,0 +1,25 @@
+{
+  "name": "natura-cafe-database",
+  "version": "1.1.0",
+  "description": "Sales and operations management system for Natura Cafe with a MySQL schema and Node.js web app.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/annakaza/natura-cafe-database.git"
+  },
+  "author": "Anna Kaza (developer), with Ethan Duke (collaborator)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/annakaza/natura-cafe-database/issues"
+  },
+  "homepage": "https://github.com/annakaza/natura-cafe-database#readme",
+  "dependencies": {
+    "express": "^4.21.2",
+    "express-handlebars": "^8.0.1",
+    "forever": "^4.0.3",
+    "mysql": "^2.18.1"
+  }
+}
